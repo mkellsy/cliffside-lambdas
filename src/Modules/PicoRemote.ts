@@ -4,15 +4,15 @@ export abstract class PicoRemote {
     public static mapButton(
         button: string,
         device: string,
-        single?: (device?: Device) => void,
+        long?: (device?: Device) => void,
         double?: (device?: Device) => void,
-        long?: (device?: Device) => void
+        single?: (device?: Device) => void
     ) {
         return {
             button,
     
-            action(state: Action, devices: Map<string, Device>) {
-                switch (state) {
+            action(buttonAction: Action, devices: Map<string, Device>) {
+                switch (buttonAction) {
                     case "Press":
                         if (single != null) {
                             return single(devices.get(device));

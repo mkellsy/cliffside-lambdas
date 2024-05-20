@@ -3,17 +3,17 @@ import { FanControl } from "../Modules/FanControl";
 
 export function picoFanControl(
     device: string,
-    on: string,
-    off: string,
-    raise: string,
-    lower: string,
-    favorite: string
+    onButton: string,
+    offButton: string,
+    raiseButton: string,
+    lowerButton: string,
+    favoriteButton: string
 ) {
     return [
-        PicoRemote.mapButton(on, device, undefined, undefined, FanControl.on),
-        PicoRemote.mapButton(off, device, undefined, undefined, FanControl.off),
-        PicoRemote.mapButton(raise, device, undefined, undefined, FanControl.raiseSpeed),
-        PicoRemote.mapButton(lower, device, undefined, undefined, FanControl.lowerSpeed),
-        PicoRemote.mapButton(favorite, device, FanControl.favoriteSpeed, FanControl.toggleWhoosh, FanControl.auto)
+        PicoRemote.mapButton(onButton, device, FanControl.on),
+        PicoRemote.mapButton(offButton, device, FanControl.off),
+        PicoRemote.mapButton(raiseButton, device, FanControl.raise),
+        PicoRemote.mapButton(lowerButton, device, FanControl.lower),
+        PicoRemote.mapButton(favoriteButton, device, FanControl.auto, FanControl.whoosh, FanControl.favorite)
     ]
 }

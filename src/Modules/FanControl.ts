@@ -29,6 +29,20 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    public static toggle(fan?: Device) {
+        if (fan == null) {
+            return;
+        }
+
+        const state = fan.status.state === "On" ? "Off" : "On";
+        const speed = state === "On" ? 7 : 0;
+        const auto = "Off";
+        const whoosh = fan.status.whoosh || "Off";
+        const eco = fan.status.eco || "Off";
+
+        fan.set({ state, speed, auto, whoosh, eco });
+    }
+
     public static auto(fan?: Device) {
         if (fan == null) {
             return;
@@ -43,7 +57,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static raiseSpeed(fan?: Device) {
+    public static raise(fan?: Device) {
         if (fan == null) {
             return;
         }
@@ -59,7 +73,7 @@ export abstract class FanControl {
         }
     }
 
-    public static lowerSpeed(fan?: Device) {
+    public static lower(fan?: Device) {
         if (fan == null) {
             return;
         }
@@ -77,7 +91,7 @@ export abstract class FanControl {
         }
     }
 
-    public static favoriteSpeed(fan?: Device) {
+    public static favorite(fan?: Device) {
         if (fan == null) {
             return;
         }
@@ -91,7 +105,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static toggleWhoosh(fan?: Device) {
+    public static whoosh(fan?: Device) {
         if (fan == null) {
             return;
         }

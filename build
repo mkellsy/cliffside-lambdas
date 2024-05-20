@@ -23,7 +23,9 @@ const options = {
 };
 
 const tasks = [
-    { input: path.resolve(__dirname, "src/LivingRoomFan.ts"), output: path.resolve(__dirname, "lib/LivingRoomFan.js") }
+    { input: path.resolve(__dirname, "src/LivingRoomFan.ts"), output: path.resolve(__dirname, "lib/LivingRoomFan.js") },
+    { input: path.resolve(__dirname, "src/FoyerKeypad.ts"), output: path.resolve(__dirname, "lib/FoyerKeypad.js") },
+    { input: path.resolve(__dirname, "src/EntrywayKeypad.ts"), output: path.resolve(__dirname, "lib/EntrywayKeypad.js") }
 ];
 
 const jobs = [];
