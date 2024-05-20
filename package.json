@@ -1,0 +1,29 @@
+{
+    "version": "1.0.1",
+    "name": "@mkellsy/cliffside-lambdas",
+    "displayName": "Cliffside Lambdas",
+    "description": "Lambda storage for Cliffside home automatizations.",
+    "author": "Michael Kellsy",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mkellsy/cliffside-lambdas"
+    },
+    "homepage": "https://github.com/mkellsy/cliffside-lambdas",
+    "files": [
+        "/lib"
+    ],
+    "scripts": {
+        "build": "node ./build",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "@mkellsy/hap-device": "^1.1.8",
+        "@types/debug": "^4.1.12",
+        "@types/node": "^20.11.0",
+        "colors": "^1.4.0",
+        "esbuild": "^0.20.2",
+        "js-logger": "^1.6.1",
+        "typescript": "^5.3.3"
+    }
+}
