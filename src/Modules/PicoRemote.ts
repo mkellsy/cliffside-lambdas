@@ -1,4 +1,4 @@
-import { Action, Device } from "@mkellsy/hap-device";
+import { Action, Button, Device } from "@mkellsy/hap-device";
 
 export abstract class PicoRemote {
     public static mapButton(
@@ -11,8 +11,13 @@ export abstract class PicoRemote {
         return {
             button,
     
-            action(buttonAction: Action, devices: Map<string, Device>) {
-                switch (buttonAction) {
+            action(
+                _control: Device,
+                _button: Button,
+                state: Action,
+                devices: Map<string, Device>
+            ) {
+                switch (state) {
                     case "Press":
                         if (single != null) {
                             return single(devices.get(device));

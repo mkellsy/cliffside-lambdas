@@ -1,4 +1,5 @@
-import { Action, Device } from "@mkellsy/hap-device";
+import * as Interfaces from "@mkellsy/hap-device";
+
 import { ContactControl } from "./ContactControl";
 import { FanControl } from "./FanControl";
 import { DimmerControl } from "./DimmerControl";
@@ -6,133 +7,135 @@ import { SwitchControl } from "../Modules/SwitchControl";
 
 export class StateControl {
     private currentDevice: string = "Unknown";
-    private currentActivate: () => void = () => { /* no-op */ };
-
-    private activityTimeout?: NodeJS.Timeout;
 
     public static select(
         button: string,
         device: string,
-        state: StateControl,
+        store: StateControl,
     ) {
         return {
             button,
 
-            action: (buttonAction: Action, devices: Map<string, Device>, activate: () => void) => {
-                if (buttonAction !== "Press") {
+            action: (
+                control: Interfaces.Device,
+                button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
+            ) => {
+                if (state !== "Press") {
                     return;
                 }
 
-                const control = devices.get(device);
+                const target = devices.get(device);
 
-                if (control != null && state.get() === device) {
-                    if (control.capabilities.speed != null) {
-                        FanControl.toggle(control);
-                    } else if (control.capabilities.level != null) {
-                        DimmerControl.toggle(control);
+                if (target != null && store.get() === device) {
+                    if (target.capabilities.speed != null) {
+                        FanControl.toggle(target);
+                    } else if (target.capabilities.level != null) {
+                        DimmerControl.toggle(target);
                     } else if (
-                        control.capabilities.state != null &&
-                        control.capabilities.state.values != null &&
-                        control.capabilities.state.values.indexOf("On") >= 0 &&
-                        control.capabilities.state.values.indexOf("Off") >= 0
+                        target.capabilities.state != null &&
+                        target.capabilities.state.values != null &&
+                        target.capabilities.state.values.indexOf("On") >= 0 &&
+                        target.capabilities.state.values.indexOf("Off") >= 0
                     ) {
-                        SwitchControl.toggle(control);
+                        SwitchControl.toggle(target);
                     } else if (
-                        control.capabilities.state != null &&
-                        control.capabilities.state.values != null &&
-                        control.capabilities.state.values.indexOf("Open") >= 0 &&
-                        control.capabilities.state.values.indexOf("Closed") >= 0
+                        target.capabilities.state != null &&
+                        target.capabilities.state.values != null &&
+                        target.capabilities.state.values.indexOf("Open") >= 0 &&
+                        target.capabilities.state.values.indexOf("Closed") >= 0
                     ) {
-                        ContactControl.toggle(control);
+                        ContactControl.toggle(target);
                     }
                 }
 
-                state.set(device, activate);
+                if (control.type === Interfaces.DeviceType.Keypad) {
+                    const keypad = control as Interfaces.Keypad;
+                    const buttons = keypad.buttons.filter((item) => item.led != null);
+
+                    for (let i = 0; i < buttons.length; i++) {
+                        control.log.info(`set ${buttons[i].id} ${buttons[i].id === button.id ? "On" : "Off"}`);
+
+                        control.set({
+                            led: buttons[i].led,
+                            state: buttons[i].id === button.id ? "On" : "Off",
+                        });
+                    }
+                }
+
+                store.set(device);
             }
         }
     }
     
-    public static raise(button: string, state: StateControl) {
+    public static raise(button: string, store: StateControl) {
         return {
             button,
 
-            action: (buttonAction: Action, devices: Map<string, Device>) => {
-                if (buttonAction !== "Press") {
+            action: (
+                _control: Interfaces.Device,
+                _button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
+            ) => {
+                if (state !== "Press") {
                     return;
                 }
 
-                state.activate();
-
-                const control = devices.get(state.get());
+                const target = devices.get(store.get());
 
                 if (
-                    control != null &&
-                    control.capabilities.speed != null
+                    target != null &&
+                    target.capabilities.speed != null
                 ) {
-                    FanControl.raise(control);
+                    FanControl.raise(target);
                 } else if (
-                    control != null &&
-                    control.capabilities.level != null
+                    target != null &&
+                    target.capabilities.level != null
                 ) {
-                    DimmerControl.raise(control);
+                    DimmerControl.raise(target);
                 }
             }
         }
     }
 
-    public static lower(button: string, state: StateControl) {
+    public static lower(button: string, store: StateControl) {
         return {
             button,
 
-            action: (buttonAction: Action, devices: Map<string, Device>) => {
-                if (buttonAction !== "Press") {
+            action: (
+                _control: Interfaces.Device,
+                _button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
+            ) => {
+                if (state !== "Press") {
                     return;
                 }
 
-                state.activate();
-
-                const control = devices.get(state.get());
+                const target = devices.get(store.get());
 
                 if (
-                    control != null &&
-                    control.capabilities.speed != null
+                    target != null &&
+                    target.capabilities.speed != null
                 ) {
-                    FanControl.lower(control);
+                    FanControl.lower(target);
                 } else if (
-                    control != null &&
-                    control.capabilities.level != null
+                    target != null &&
+                    target.capabilities.level != null
                 ) {
-                    DimmerControl.lower(control);
+                    DimmerControl.lower(target);
                 }
             }
         }
     }
 
-    public reset(): void {
-        this.currentDevice = "Unknown";
-        this.currentActivate = () => { /* no-op */ };
-    }
-
-    public set(device: string, activate: () => void) {
+    public set(device: string) {
         this.currentDevice = device;
-        this.currentActivate = activate;
-
-        this.activate();
     }
 
     public get(): string {
         return this.currentDevice;
-    }
-
-    public activate(): void {
-        if (this.activityTimeout != null) {
-            clearTimeout(this.activityTimeout);
-
-            this.activityTimeout = undefined
-        }
-
-        this.currentActivate();
-
-        this.activityTimeout = setTimeout(this.reset, 120_000);
     }
 }
