@@ -6,6 +6,7 @@ import { SwitchControl } from "../Modules/SwitchControl";
 
 export class StateControl {
     private currentDevice: string = "Unknown";
+    private currentActivate: () => void = () => { /* no-op */ };
 
     public static select(
         button: string,
@@ -19,8 +20,6 @@ export class StateControl {
                 if (buttonAction !== "Press") {
                     return;
                 }
-
-                activate();
 
                 const control = devices.get(device);
 
@@ -46,7 +45,7 @@ export class StateControl {
                     }
                 }
 
-                state.set(device);
+                state.set(device, activate);
             }
         }
     }
@@ -59,6 +58,8 @@ export class StateControl {
                 if (buttonAction !== "Press") {
                     return;
                 }
+
+                state.activate();
 
                 const control = devices.get(state.get());
 
@@ -86,6 +87,8 @@ export class StateControl {
                     return;
                 }
 
+                state.activate();
+
                 const control = devices.get(state.get());
 
                 if (
@@ -103,11 +106,18 @@ export class StateControl {
         }
     }
 
-    public set(device: string) {
+    public set(device: string, activate: () => void) {
         this.currentDevice = device;
+        this.currentActivate = activate;
+
+        activate();
     }
 
     public get(): string {
         return this.currentDevice;
+    }
+
+    public activate(): void {
+        this.currentActivate();
     }
 }
