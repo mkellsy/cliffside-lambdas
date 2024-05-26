@@ -12,9 +12,9 @@ export function SunnataTrippleControl(
     lowerButton: string
 ) {
     return [
-        StateControl.select(firstButton, deviceOne, state, deviceOne.startsWith("LEAP")),
-        StateControl.select(secondButton, deviceTwo, state, deviceTwo.startsWith("LEAP")),
-        StateControl.select(thirdButton, deviceThree, state, deviceThree.startsWith("LEAP")),
+        StateControl.select(firstButton, deviceOne, state),
+        StateControl.select(secondButton, deviceTwo, state),
+        StateControl.select(thirdButton, deviceThree, state),
         StateControl.raise(raiseButton, state),
         StateControl.lower(lowerButton, state)
     ]

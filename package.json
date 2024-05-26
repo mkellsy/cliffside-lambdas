@@ -1,5 +1,5 @@
 {
-    "version": "1.0.1",
+    "version": "1.1.1",
     "name": "@mkellsy/cliffside-lambdas",
     "displayName": "Cliffside Lambdas",
     "description": "Lambda storage for Cliffside home automatizations.",
@@ -18,7 +18,7 @@
         "prepublishOnly": "npm run build"
     },
     "devDependencies": {
-        "@mkellsy/hap-device": "^1.1.8",
+        "@mkellsy/hap-device": "^1.2.1",
         "@types/debug": "^4.1.12",
         "@types/node": "^20.11.0",
         "colors": "^1.4.0",

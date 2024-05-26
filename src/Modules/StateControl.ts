@@ -11,48 +11,39 @@ export class StateControl {
         button: string,
         device: string,
         state: StateControl,
-        controlled: boolean
     ) {
         return {
             button,
 
-            action: (buttonAction: Action, devices: Map<string, Device>) => {
+            action: (buttonAction: Action, devices: Map<string, Device>, activate: () => void) => {
                 if (buttonAction !== "Press") {
                     return;
                 }
 
+                activate();
+
                 const control = devices.get(device);
 
-                if (
-                    !controlled &&
-                    control != null &&
-                    control.capabilities.speed != null
-                ) {
-                    FanControl.toggle(control);
-                } else if (
-                    !controlled &&
-                    control != null &&
-                    control.capabilities.level != null
-                ) {
-                    DimmerControl.toggle(control);
-                } else if (
-                    !controlled &&
-                    control != null &&
-                    control.capabilities.state != null &&
-                    control.capabilities.state.values != null &&
-                    control.capabilities.state.values.indexOf("On") >= 0 &&
-                    control.capabilities.state.values.indexOf("Off") >= 0
-                ) {
-                    SwitchControl.toggle(control);
-                } else if (
-                    !controlled &&
-                    control != null &&
-                    control.capabilities.state != null &&
-                    control.capabilities.state.values != null &&
-                    control.capabilities.state.values.indexOf("Open") >= 0 &&
-                    control.capabilities.state.values.indexOf("Closed") >= 0
-                ) {
-                    ContactControl.toggle(control);
+                if (control != null && state.get() === device) {
+                    if (control.capabilities.speed != null) {
+                        FanControl.toggle(control);
+                    } else if (control.capabilities.level != null) {
+                        DimmerControl.toggle(control);
+                    } else if (
+                        control.capabilities.state != null &&
+                        control.capabilities.state.values != null &&
+                        control.capabilities.state.values.indexOf("On") >= 0 &&
+                        control.capabilities.state.values.indexOf("Off") >= 0
+                    ) {
+                        SwitchControl.toggle(control);
+                    } else if (
+                        control.capabilities.state != null &&
+                        control.capabilities.state.values != null &&
+                        control.capabilities.state.values.indexOf("Open") >= 0 &&
+                        control.capabilities.state.values.indexOf("Closed") >= 0
+                    ) {
+                        ContactControl.toggle(control);
+                    }
                 }
 
                 state.set(device);
