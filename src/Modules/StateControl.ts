@@ -55,8 +55,6 @@ export class StateControl {
                     const buttons = keypad.buttons.filter((item) => item.led != null);
 
                     for (let i = 0; i < buttons.length; i++) {
-                        control.log.info(`set ${buttons[i].id} ${buttons[i].id === button.id ? "On" : "Off"}`);
-
                         control.set({
                             led: buttons[i].led,
                             state: buttons[i].id === button.id ? "On" : "Off",
