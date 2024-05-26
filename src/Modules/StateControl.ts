@@ -17,8 +17,8 @@ export class StateControl {
             button,
 
             action: (
-                control: Interfaces.Device,
-                button: Interfaces.Button,
+                _control: Interfaces.Device,
+                _button: Interfaces.Button,
                 state: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
@@ -47,18 +47,6 @@ export class StateControl {
                         target.capabilities.state.values.indexOf("Closed") >= 0
                     ) {
                         ContactControl.toggle(target);
-                    }
-                }
-
-                if (control.type === Interfaces.DeviceType.Keypad) {
-                    const keypad = control as Interfaces.Keypad;
-                    const buttons = keypad.buttons.filter((item) => item.led != null);
-
-                    for (let i = 0; i < buttons.length; i++) {
-                        control.set({
-                            led: buttons[i].led,
-                            state: buttons[i].id === button.id ? "On" : "Off",
-                        });
                     }
                 }
 
