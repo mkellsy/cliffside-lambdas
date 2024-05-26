@@ -8,6 +8,8 @@ export class StateControl {
     private currentDevice: string = "Unknown";
     private currentActivate: () => void = () => { /* no-op */ };
 
+    private activityTimeout?: NodeJS.Timeout;
+
     public static select(
         button: string,
         device: string,
@@ -106,11 +108,16 @@ export class StateControl {
         }
     }
 
+    public reset(): void {
+        this.currentDevice = "Unknown";
+        this.currentActivate = () => { /* no-op */ };
+    }
+
     public set(device: string, activate: () => void) {
         this.currentDevice = device;
         this.currentActivate = activate;
 
-        activate();
+        this.activate();
     }
 
     public get(): string {
@@ -118,6 +125,14 @@ export class StateControl {
     }
 
     public activate(): void {
+        if (this.activityTimeout != null) {
+            clearTimeout(this.activityTimeout);
+
+            this.activityTimeout = undefined
+        }
+
         this.currentActivate();
+
+        this.activityTimeout = setTimeout(this.reset, 120_000);
     }
 }
