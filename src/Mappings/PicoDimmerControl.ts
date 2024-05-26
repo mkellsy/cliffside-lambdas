@@ -1,19 +1,20 @@
+import { Action } from "../Interfaces/Action";
 import { PicoRemote } from "../Modules/PicoRemote";
 import { DimmerControl } from "../Modules/DimmerControl";
 
 export function picoDimmerControl(
     device: string,
-    onButton: string,
-    offButton: string,
-    raiseButton: string,
-    lowerButton: string,
-    favoriteButton: string
-) {
+    on: string,
+    off: string,
+    raise: string,
+    lower: string,
+    favorite: string
+): Action[] {
     return [
-        PicoRemote.mapButton(onButton, device, DimmerControl.on),
-        PicoRemote.mapButton(offButton, device, DimmerControl.off),
-        PicoRemote.mapButton(raiseButton, device, DimmerControl.raise),
-        PicoRemote.mapButton(lowerButton, device, DimmerControl.lower),
-        PicoRemote.mapButton(favoriteButton, device, DimmerControl.favorite)
+        PicoRemote.mapButton(on, device, DimmerControl.on),
+        PicoRemote.mapButton(off, device, DimmerControl.off),
+        PicoRemote.mapButton(raise, device, DimmerControl.raise),
+        PicoRemote.mapButton(lower, device, DimmerControl.lower),
+        PicoRemote.mapButton(favorite, device, DimmerControl.favorite)
     ]
 }

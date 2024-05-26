@@ -1,21 +1,22 @@
-import { Action, Button, Device } from "@mkellsy/hap-device";
+import * as Interfaces from "@mkellsy/hap-device";
+
+import { Action } from "../Interfaces/Action";
 
 export abstract class PicoRemote {
     public static mapButton(
         button: string,
         device: string,
-        long?: (device?: Device) => void,
-        double?: (device?: Device) => void,
-        single?: (device?: Device) => void
-    ) {
+        long?: (device?: Interfaces.Device) => void,
+        double?: (device?: Interfaces.Device) => void,
+        single?: (device?: Interfaces.Device) => void
+    ): Action {
         return {
             button,
     
             action(
-                _control: Device,
-                _button: Button,
-                state: Action,
-                devices: Map<string, Device>
+                _button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
             ) {
                 switch (state) {
                     case "Press":

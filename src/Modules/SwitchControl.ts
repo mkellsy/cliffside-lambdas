@@ -1,7 +1,7 @@
 import { Device } from "@mkellsy/hap-device";
 
 export abstract class SwitchControl {
-    public static on(binary?: Device) {
+    public static on(binary?: Device): void {
         if (binary == null) {
             return;
         }
@@ -11,7 +11,7 @@ export abstract class SwitchControl {
         binary.set({ state });
     }
 
-    public static off(binary?: Device) {
+    public static off(binary?: Device): void {
         if (binary == null) {
             return;
         }
@@ -21,7 +21,7 @@ export abstract class SwitchControl {
         binary.set({ state });
     }
 
-    public static toggle(binary?: Device) {
+    public static toggle(binary?: Device): void {
         if (binary == null) {
             return;
         }

@@ -1,19 +1,20 @@
+import { Action } from "../Interfaces/Action";
 import { PicoRemote } from "../Modules/PicoRemote";
 import { FanControl } from "../Modules/FanControl";
 
 export function picoFanControl(
     device: string,
-    onButton: string,
-    offButton: string,
-    raiseButton: string,
-    lowerButton: string,
-    favoriteButton: string
-) {
+    on: string,
+    off: string,
+    raise: string,
+    lower: string,
+    favorite: string
+): Action[] {
     return [
-        PicoRemote.mapButton(onButton, device, FanControl.on),
-        PicoRemote.mapButton(offButton, device, FanControl.off),
-        PicoRemote.mapButton(raiseButton, device, FanControl.raise),
-        PicoRemote.mapButton(lowerButton, device, FanControl.lower),
-        PicoRemote.mapButton(favoriteButton, device, FanControl.auto, FanControl.whoosh, FanControl.favorite)
+        PicoRemote.mapButton(on, device, FanControl.on),
+        PicoRemote.mapButton(off, device, FanControl.off),
+        PicoRemote.mapButton(raise, device, FanControl.raise),
+        PicoRemote.mapButton(lower, device, FanControl.lower),
+        PicoRemote.mapButton(favorite, device, FanControl.auto, FanControl.whoosh, FanControl.favorite)
     ]
 }

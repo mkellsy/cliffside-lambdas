@@ -1,7 +1,7 @@
 import { Device } from "@mkellsy/hap-device";
 
 export abstract class FanControl {
-    public static on(fan?: Device) {
+    public static on(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -15,7 +15,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static off(fan?: Device) {
+    public static off(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -29,7 +29,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static toggle(fan?: Device) {
+    public static toggle(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -43,7 +43,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static auto(fan?: Device) {
+    public static auto(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -57,7 +57,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static raise(fan?: Device) {
+    public static raise(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -73,7 +73,7 @@ export abstract class FanControl {
         }
     }
 
-    public static lower(fan?: Device) {
+    public static lower(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -91,7 +91,7 @@ export abstract class FanControl {
         }
     }
 
-    public static favorite(fan?: Device) {
+    public static favorite(fan?: Device): void {
         if (fan == null) {
             return;
         }
@@ -105,7 +105,7 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
-    public static whoosh(fan?: Device) {
+    public static whoosh(fan?: Device): void {
         if (fan == null) {
             return;
         }

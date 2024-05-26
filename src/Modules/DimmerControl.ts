@@ -1,7 +1,7 @@
 import { Device } from "@mkellsy/hap-device";
 
 export abstract class DimmerControl {
-    public static on(dimmer?: Device) {
+    public static on(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
@@ -12,7 +12,7 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
-    public static off(dimmer?: Device) {
+    public static off(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
@@ -23,7 +23,7 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
-    public static toggle(dimmer?: Device) {
+    public static toggle(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
@@ -34,7 +34,7 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
-    public static raise(dimmer?: Device) {
+    public static raise(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
@@ -47,7 +47,7 @@ export abstract class DimmerControl {
         }
     }
 
-    public static lower(dimmer?: Device) {
+    public static lower(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
@@ -62,7 +62,7 @@ export abstract class DimmerControl {
         }
     }
 
-    public static favorite(dimmer?: Device) {
+    public static favorite(dimmer?: Device): void {
         if (dimmer == null) {
             return;
         }
