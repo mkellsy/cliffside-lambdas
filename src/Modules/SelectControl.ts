@@ -47,23 +47,23 @@ export class SelectControl {
         
                     if (target != null) {
                         if (target.capabilities.speed != null) {
-                            FanControl.off(target);
+                            FanControl.on(target);
                         } else if (target.capabilities.level != null) {
-                            DimmerControl.off(target);
+                            DimmerControl.on(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            SwitchControl.off(target);
+                            SwitchControl.on(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("Open") >= 0 &&
                             target.capabilities.state.values.indexOf("Closed") >= 0
                         ) {
-                            ContactControl.off(target);
+                            ContactControl.on(target);
                         }
                     }
                 }

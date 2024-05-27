@@ -17,11 +17,11 @@ export function picoStateControl(
         actions.push(SelectControl.select(groups[i], state));
     }
 
-    actions.push(SelectControl.raise(on, state));
-    actions.push(SelectControl.raise(off, state));
+    actions.push(SelectControl.on(on, state));
+    actions.push(SelectControl.off(off, state));
     actions.push(SelectControl.raise(raise, state));
     actions.push(SelectControl.lower(lower, state));
-    actions.push(SelectControl.raise(favorite, state));
+    actions.push(SelectControl.favorite(favorite, state));
 
     return actions;
 }
