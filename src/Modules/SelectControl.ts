@@ -5,65 +5,21 @@ import { ContactControl } from "./ContactControl";
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { DimmerControl } from "./DimmerControl";
 import { FanControl } from "./FanControl";
-import { KeypadControl } from "./KeypadControl";
-import { SwitchControl } from "../Modules/SwitchControl";
+import { SwitchControl } from "./SwitchControl";
 
-export class StateControl {
+export class SelectControl {
     private currentGroup?: DeviceGroup;
 
-    public static select(
-        keypads: string[],
-        group: DeviceGroup,
-        store: StateControl,
-    ): Action {
+    public static select(group: DeviceGroup, store: SelectControl): Action {
         return {
             button: group.button,
 
             action: (
-                button: Interfaces.Button,
-                state: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                _button: Interfaces.Button,
+                state: Interfaces.Action
             ) => {
                 if (state !== "Press") {
                     return;
-                }
-
-                for (let i = 0; i < keypads.length; i++) {
-                    const target = devices.get(keypads[i]);
-        
-                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
-                        continue;
-                    }
-        
-                    KeypadControl.select(target, button);
-                }
-
-                if (store.get() === group) {
-                    for (let i = 0; i < group.devices.length; i++) {
-                        const target = devices.get(group.devices[i]);
-            
-                        if (target != null) {
-                            if (target.capabilities.speed != null) {
-                                FanControl.toggle(target);
-                            } else if (target.capabilities.level != null) {
-                                DimmerControl.toggle(target);
-                            } else if (
-                                target.capabilities.state != null &&
-                                target.capabilities.state.values != null &&
-                                target.capabilities.state.values.indexOf("On") >= 0 &&
-                                target.capabilities.state.values.indexOf("Off") >= 0
-                            ) {
-                                SwitchControl.toggle(target);
-                            } else if (
-                                target.capabilities.state != null &&
-                                target.capabilities.state.values != null &&
-                                target.capabilities.state.values.indexOf("Open") >= 0 &&
-                                target.capabilities.state.values.indexOf("Closed") >= 0
-                            ) {
-                                ContactControl.toggle(target);
-                            }
-                        }
-                    }
                 }
 
                 store.set(group);
@@ -71,31 +27,19 @@ export class StateControl {
         };
     }
 
-    public static off(
-        keypads: string[],
-        group: DeviceGroup,
-        store: StateControl
-    ): Action {
+    public static on(button: string, store: SelectControl): Action {
         return {
-            button: group.button,
+            button,
 
             action: (
                 _button: Interfaces.Button,
                 state: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                if (state !== "Press") {
-                    return;
-                }
+                const group = store.get();
 
-                for (let i = 0; i < keypads.length; i++) {
-                    const target = devices.get(keypads[i]);
-        
-                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
-                        continue;
-                    }
-        
-                    KeypadControl.reset(target);
+                if (group == null || state !== "Press") {
+                    return;
                 }
 
                 for (let i = 0; i < group.devices.length; i++) {
@@ -123,13 +67,55 @@ export class StateControl {
                         }
                     }
                 }
+            }
+        };
+    }
 
-                store.reset();
+    public static off(button: string, store: SelectControl): Action {
+        return {
+            button,
+
+            action: (
+                _button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
+            ) => {
+                const group = store.get();
+
+                if (group == null || state !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+        
+                    if (target != null) {
+                        if (target.capabilities.speed != null) {
+                            FanControl.off(target);
+                        } else if (target.capabilities.level != null) {
+                            DimmerControl.off(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("On") >= 0 &&
+                            target.capabilities.state.values.indexOf("Off") >= 0
+                        ) {
+                            SwitchControl.off(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("Open") >= 0 &&
+                            target.capabilities.state.values.indexOf("Closed") >= 0
+                        ) {
+                            ContactControl.off(target);
+                        }
+                    }
+                }
             }
         };
     }
     
-    public static raise(button: string, store: StateControl): Action {
+    public static raise(button: string, store: SelectControl): Action {
         return {
             button,
 
@@ -161,7 +147,7 @@ export class StateControl {
         };
     }
 
-    public static lower(button: string, store: StateControl): Action {
+    public static lower(button: string, store: SelectControl): Action {
         return {
             button,
 
@@ -187,6 +173,38 @@ export class StateControl {
                         FanControl.lower(target);
                     } else if (target.capabilities.level != null) {
                         DimmerControl.lower(target);
+                    }
+                }
+            }
+        };
+    }
+
+    public static favorite(button: string, store: SelectControl): Action {
+        return {
+            button,
+
+            action: (
+                _button: Interfaces.Button,
+                state: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>
+            ) => {
+                const group = store.get();
+
+                if (group == null || state !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+
+                    if (target == null) {
+                        continue;
+                    }
+
+                    if (target.capabilities.speed != null) {
+                        FanControl.favorite(target);
+                    } else if (target.capabilities.level != null) {
+                        DimmerControl.favorite(target);
                     }
                 }
             }
