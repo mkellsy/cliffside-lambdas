@@ -1,6 +1,14 @@
 import { Device } from "@mkellsy/hap-device";
 
+/**
+ * Defines the lambda actions for fans.
+ */
 export abstract class FanControl {
+    /**
+     * Defines the on lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static on(fan?: Device): void {
         if (fan == null) {
             return;
@@ -15,6 +23,11 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    /**
+     * Defines the off lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static off(fan?: Device): void {
         if (fan == null) {
             return;
@@ -29,6 +42,11 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    /**
+     * Defines the toggle lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static toggle(fan?: Device): void {
         if (fan == null) {
             return;
@@ -43,6 +61,11 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    /**
+     * Defines the auto lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static auto(fan?: Device): void {
         if (fan == null) {
             return;
@@ -57,6 +80,11 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    /**
+     * Defines the raise lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static raise(fan?: Device): void {
         if (fan == null) {
             return;
@@ -73,6 +101,11 @@ export abstract class FanControl {
         }
     }
 
+    /**
+     * Defines the lower lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static lower(fan?: Device): void {
         if (fan == null) {
             return;
@@ -91,6 +124,11 @@ export abstract class FanControl {
         }
     }
 
+    /**
+     * Defines the favorite lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static favorite(fan?: Device): void {
         if (fan == null) {
             return;
@@ -105,6 +143,11 @@ export abstract class FanControl {
         fan.set({ state, speed, auto, whoosh, eco });
     }
 
+    /**
+     * Defines the whoosh lambda action, if the fan device is defined.
+     *
+     * @param cco (optional) A reference if exists to the fan device.
+     */
     public static whoosh(fan?: Device): void {
         if (fan == null) {
             return;

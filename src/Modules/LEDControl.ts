@@ -8,9 +8,22 @@ import { KeypadControl } from "./KeypadControl";
 import { Lambda } from "../Interfaces/Lambda";
 import { SwitchControl } from "../Modules/SwitchControl";
 
+/**
+ * Defines how multiple keypad buttons with LEDs interact with a set of raise
+ * and lower buttons.
+ */
 export class LEDControl {
     private currentGroup?: DeviceGroup;
 
+    /**
+     * Selects a device to be controlled.
+     *
+     * @param keypads A list of mapped keypad ids.
+     * @param group A group of devices to assign the keypad.
+     * @param control A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
+     */
     public static select(
         keypads: string[],
         group: DeviceGroup,
@@ -71,6 +84,15 @@ export class LEDControl {
         };
     }
 
+    /**
+     * Defines the off lambda action for the currently selected group.
+     *
+     * @param keypads A list of mapped keypad ids.
+     * @param group A group of devices to assign the keypad.
+     * @param control A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
+     */
     public static off(
         keypads: string[],
         group: DeviceGroup,
@@ -129,6 +151,14 @@ export class LEDControl {
         };
     }
     
+    /**
+     * Defines the raise lambda action for the currently selected group.
+     *
+     * @param button The id of the raise button.
+     * @param control A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
+     */
     public static raise(button: string, control: LEDControl): Lambda {
         return {
             button,
@@ -161,6 +191,14 @@ export class LEDControl {
         };
     }
 
+    /**
+     * Defines the lower lambda action for the currently selected group.
+     *
+     * @param button The id of the lower button.
+     * @param control A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
+     */
     public static lower(button: string, control: LEDControl): Lambda {
         return {
             button,
@@ -193,14 +231,27 @@ export class LEDControl {
         };
     }
 
+    /**
+     * Sets a group as currently selected.
+     *
+     * @param group A device group object to select.
+     */
     public set(group: DeviceGroup): void {
         this.currentGroup = group;
     }
 
+    /**
+     * Gets the currently selected group.
+     *
+     * @returns A device group object or undefined.
+     */
     public get(): DeviceGroup | undefined {
         return this.currentGroup;
     }
 
+    /**
+     * Resets the currently selected group to nothing.
+     */
     public reset(): void {
         this.currentGroup = undefined;
     }

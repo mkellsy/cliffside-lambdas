@@ -1,6 +1,14 @@
 import { Device } from "@mkellsy/hap-device";
 
+/**
+ * Defines the lambda actions for dimmers.
+ */
 export abstract class DimmerControl {
+    /**
+     * Defines the on lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static on(dimmer?: Device): void {
         if (dimmer == null) {
             return;
@@ -12,6 +20,11 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
+    /**
+     * Defines the off lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static off(dimmer?: Device): void {
         if (dimmer == null) {
             return;
@@ -23,6 +36,11 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
+    /**
+     * Defines the toggle lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static toggle(dimmer?: Device): void {
         if (dimmer == null) {
             return;
@@ -34,6 +52,11 @@ export abstract class DimmerControl {
         dimmer.set({ state, level });
     }
 
+    /**
+     * Defines the raise lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static raise(dimmer?: Device): void {
         if (dimmer == null) {
             return;
@@ -47,6 +70,11 @@ export abstract class DimmerControl {
         }
     }
 
+    /**
+     * Defines the lower lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static lower(dimmer?: Device): void {
         if (dimmer == null) {
             return;
@@ -62,6 +90,11 @@ export abstract class DimmerControl {
         }
     }
 
+    /**
+     * Defines the favorite lambda action, if the dimmer device is defined.
+     *
+     * @param cco (optional) A reference if exists to the dimmer device.
+     */
     public static favorite(dimmer?: Device): void {
         if (dimmer == null) {
             return;

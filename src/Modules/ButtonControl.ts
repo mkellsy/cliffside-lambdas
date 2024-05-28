@@ -7,9 +7,20 @@ import { FanControl } from "./FanControl";
 import { Lambda } from "../Interfaces/Lambda";
 import { SwitchControl } from "./SwitchControl";
 
+/**
+ * Defines how multiple pico buttons interact with a control pico.
+ */
 export class ButtonControl {
     private currentGroup?: DeviceGroup;
 
+    /**
+     * Selects a device to be controled.
+     *
+     * @param group A mapped device group.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static select(group: DeviceGroup, control: ButtonControl): Lambda {
         return {
             button: group.button,
@@ -27,6 +38,14 @@ export class ButtonControl {
         };
     }
 
+    /**
+     * Creates the on lambda for the control pico.
+     *
+     * @param button The id of the on button.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static on(button: string, control: ButtonControl): Lambda {
         return {
             button,
@@ -71,6 +90,14 @@ export class ButtonControl {
         };
     }
 
+    /**
+     * Creates the off lambda for the control pico.
+     *
+     * @param button The id of the on button.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static off(button: string, control: ButtonControl): Lambda {
         return {
             button,
@@ -115,6 +142,14 @@ export class ButtonControl {
         };
     }
     
+    /**
+     * Creates the raise lambda for the control pico.
+     *
+     * @param button The id of the on button.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static raise(button: string, control: ButtonControl): Lambda {
         return {
             button,
@@ -147,6 +182,14 @@ export class ButtonControl {
         };
     }
 
+    /**
+     * Creates the lower lambda for the control pico.
+     *
+     * @param button The id of the on button.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static lower(button: string, control: ButtonControl): Lambda {
         return {
             button,
@@ -179,6 +222,14 @@ export class ButtonControl {
         };
     }
 
+    /**
+     * Creates the favorite lambda for the control pico.
+     *
+     * @param button The id of the on button.
+     * @param control A reference to this control object for cache.
+     *
+     * @returns A lambda to be added to the lambda list.
+     */
     public static favorite(button: string, control: ButtonControl): Lambda {
         return {
             button,
@@ -211,14 +262,27 @@ export class ButtonControl {
         };
     }
 
+    /**
+     * Sets a group as currently selected.
+     *
+     * @param group A device group object to select.
+     */
     public set(group: DeviceGroup): void {
         this.currentGroup = group;
     }
 
+    /**
+     * Gets the currently selected group.
+     *
+     * @returns A device group object or undefined.
+     */
     public get(): DeviceGroup | undefined {
         return this.currentGroup;
     }
 
+    /**
+     * Resets the currently selected group to nothing.
+     */
     public reset(): void {
         this.currentGroup = undefined;
     }
