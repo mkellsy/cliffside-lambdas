@@ -1,11 +1,11 @@
 import * as Interfaces from "@mkellsy/hap-device";
 
-export interface Action {
+export interface Lambda {
     button: string;
 
     action(
         button: Interfaces.Button,
-        state: Interfaces.Action,
+        action: Interfaces.Action,
         devices: Map<string, Interfaces.Device>,
     ): void;
 }

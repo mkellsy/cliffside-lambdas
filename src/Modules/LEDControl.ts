@@ -1,30 +1,30 @@
 import * as Interfaces from "@mkellsy/hap-device";
 
-import { Action } from "../Interfaces/Action";
 import { ContactControl } from "./ContactControl";
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { DimmerControl } from "./DimmerControl";
 import { FanControl } from "./FanControl";
 import { KeypadControl } from "./KeypadControl";
+import { Lambda } from "../Interfaces/Lambda";
 import { SwitchControl } from "../Modules/SwitchControl";
 
-export class StateControl {
+export class LEDControl {
     private currentGroup?: DeviceGroup;
 
     public static select(
         keypads: string[],
         group: DeviceGroup,
-        store: StateControl,
-    ): Action {
+        control: LEDControl,
+    ): Lambda {
         return {
             button: group.button,
 
             action: (
                 button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                if (state !== "Press") {
+                if (action !== "Press") {
                     return;
                 }
 
@@ -38,7 +38,7 @@ export class StateControl {
                     KeypadControl.select(target, button);
                 }
 
-                if (store.get() === group) {
+                if (control.get() === group) {
                     for (let i = 0; i < group.devices.length; i++) {
                         const target = devices.get(group.devices[i]);
             
@@ -66,7 +66,7 @@ export class StateControl {
                     }
                 }
 
-                store.set(group);
+                control.set(group);
             }
         };
     }
@@ -74,17 +74,17 @@ export class StateControl {
     public static off(
         keypads: string[],
         group: DeviceGroup,
-        store: StateControl
-    ): Action {
+        control: LEDControl
+    ): Lambda {
         return {
             button: group.button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                if (state !== "Press") {
+                if (action !== "Press") {
                     return;
                 }
 
@@ -124,23 +124,23 @@ export class StateControl {
                     }
                 }
 
-                store.reset();
+                control.reset();
             }
         };
     }
     
-    public static raise(button: string, store: StateControl): Action {
+    public static raise(button: string, control: LEDControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 
@@ -161,18 +161,18 @@ export class StateControl {
         };
     }
 
-    public static lower(button: string, store: StateControl): Action {
+    public static lower(button: string, control: LEDControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 

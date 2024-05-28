@@ -1,44 +1,44 @@
 import * as Interfaces from "@mkellsy/hap-device";
 
-import { Action } from "../Interfaces/Action";
 import { ContactControl } from "./ContactControl";
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { DimmerControl } from "./DimmerControl";
 import { FanControl } from "./FanControl";
+import { Lambda } from "../Interfaces/Lambda";
 import { SwitchControl } from "./SwitchControl";
 
-export class SelectControl {
+export class ButtonControl {
     private currentGroup?: DeviceGroup;
 
-    public static select(group: DeviceGroup, store: SelectControl): Action {
+    public static select(group: DeviceGroup, control: ButtonControl): Lambda {
         return {
             button: group.button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action
+                action: Interfaces.Action
             ) => {
-                if (state !== "Press") {
+                if (action !== "Press") {
                     return;
                 }
 
-                store.set(group);
+                control.set(group);
             }
         };
     }
 
-    public static on(button: string, store: SelectControl): Action {
+    public static on(button: string, control: ButtonControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 
@@ -71,18 +71,18 @@ export class SelectControl {
         };
     }
 
-    public static off(button: string, store: SelectControl): Action {
+    public static off(button: string, control: ButtonControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 
@@ -115,18 +115,18 @@ export class SelectControl {
         };
     }
     
-    public static raise(button: string, store: SelectControl): Action {
+    public static raise(button: string, control: ButtonControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 
@@ -147,18 +147,18 @@ export class SelectControl {
         };
     }
 
-    public static lower(button: string, store: SelectControl): Action {
+    public static lower(button: string, control: ButtonControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 
@@ -179,18 +179,18 @@ export class SelectControl {
         };
     }
 
-    public static favorite(button: string, store: SelectControl): Action {
+    public static favorite(button: string, control: ButtonControl): Lambda {
         return {
             button,
 
             action: (
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) => {
-                const group = store.get();
+                const group = control.get();
 
-                if (group == null || state !== "Press") {
+                if (group == null || action !== "Press") {
                     return;
                 }
 

@@ -1,10 +1,10 @@
-import { picoStateControl } from "./Mappings/PicoStateControl";
-import { SelectControl } from "./Modules/SelectControl";
+import { ButtonControl } from "./Modules/ButtonControl";
+import { picoSelectControl } from "./Mappings/PicoSelectControl";
 
-const state = new SelectControl();
+const control = new ButtonControl();
 
-module.exports = picoStateControl(
-    state,
+module.exports = picoSelectControl(
+    control,
     [
         { button: "LEAP-04E58C0B-BUTTON-7352", devices: ["BAF-UNKNOWN-DOWNLIGHT"]},
         { button: "LEAP-04E58C0B-BUTTON-14449", devices: ["BAF-UNKNOWN-UPLIGHT"]},

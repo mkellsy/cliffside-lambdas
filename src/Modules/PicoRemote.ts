@@ -1,37 +1,49 @@
 import * as Interfaces from "@mkellsy/hap-device";
 
-import { Action } from "../Interfaces/Action";
+import { Lambda } from "../Interfaces/Lambda";
 
 export abstract class PicoRemote {
     public static mapButton(
         button: string,
-        device: string,
+        group: string[],
         long?: (device?: Interfaces.Device) => void,
         double?: (device?: Interfaces.Device) => void,
         single?: (device?: Interfaces.Device) => void
-    ): Action {
+    ): Lambda {
         return {
             button,
     
             action(
                 _button: Interfaces.Button,
-                state: Interfaces.Action,
+                action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>
             ) {
-                switch (state) {
+                switch (action) {
                     case "Press":
                         if (single != null) {
-                            return single(devices.get(device));
+                            for (let i = 0; i < group.length; i++) {
+                                single(devices.get(group[i]));
+                            }
+
+                            return
                         }
     
                     case "DoublePress":
                         if (double != null) {
-                            return double(devices.get(device));
+                            for (let i = 0; i < group.length; i++) {
+                                double(devices.get(group[i]));
+                            }
+
+                            return;
                         }
     
                     case "LongPress":
                         if (long != null) {
-                            return long(devices.get(device));
+                            for (let i = 0; i < group.length; i++) {
+                                long(devices.get(group[i]));
+                            }
+
+                            return;
                         }
                 }
             },
