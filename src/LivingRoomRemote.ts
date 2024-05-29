@@ -1,7 +1,7 @@
 import { StateManager } from "./Modules/StateManager";
 import { picoSelectControl } from "./Mappings/PicoSelectControl";
 
-const state = new StateManager();
+const state = new StateManager("LivingRoomRemote");
 
 module.exports = picoSelectControl(
     state,
