@@ -50,7 +50,7 @@ export class LEDControl {
                     KeypadControl.select(target, button);
                 }
 
-                if (state.get() === group) {
+                if (state.is(group)) {
                     for (let i = 0; i < group.devices.length; i++) {
                         const target = devices.get(group.devices[i]);
             

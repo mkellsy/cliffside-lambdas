@@ -41,6 +41,19 @@ export class StateManager {
     }
 
     /**
+     * Determines if the current group is equal to the provided group.
+     *
+     * @param group The group to test.
+     *
+     * @returns True if it is equal false if not.
+     */
+    public is(group: DeviceGroup): boolean {
+        const current = this.get();
+
+        return JSON.stringify(group) === JSON.stringify(current);
+    }
+
+    /**
      * Resets the currently selected group to nothing.
      */
     public reset(): void {
