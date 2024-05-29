@@ -1,7 +1,7 @@
 import { StateManager } from "./Modules/StateManager";
 import { sunnataSelectControl } from "./Mappings/SunnataSelectControl";
 
-const state = new StateManager();
+const state = new StateManager("EntrywayKeypad");
 
 module.exports = sunnataSelectControl(
     state,

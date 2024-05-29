@@ -20,9 +20,11 @@
     "devDependencies": {
         "@mkellsy/hap-device": "^1.2.1",
         "@types/debug": "^4.1.12",
+        "@types/flat-cache": "^2.0.2",
         "@types/node": "^20.11.0",
         "colors": "^1.4.0",
         "esbuild": "^0.20.2",
+        "flat-cache": "^3.2.0",
         "js-logger": "^1.6.1",
         "typescript": "^5.3.3"
     }
