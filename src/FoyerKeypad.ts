@@ -1,10 +1,10 @@
-import { LEDControl } from "./Modules/LEDControl";
+import { StateManager } from "./Modules/StateManager";
 import { sunnataSelectControl } from "./Mappings/SunnataSelectControl";
 
-const control = new LEDControl();
+const state = new StateManager();
 
 module.exports = sunnataSelectControl(
-    control,
+    state,
     ["LEAP-04E58C0B-KEYPAD-18039"],
     [
         { button: "LEAP-04E58C0B-BUTTON-18050", devices: ["LEAP-04E58C0B-DIMMER-18073"]},

@@ -1,10 +1,10 @@
-import { ButtonControl } from "./Modules/ButtonControl";
+import { StateManager } from "./Modules/StateManager";
 import { picoSelectControl } from "./Mappings/PicoSelectControl";
 
-const control = new ButtonControl();
+const state = new StateManager();
 
 module.exports = picoSelectControl(
-    control,
+    state,
     [
         { button: "LEAP-04E58C0B-BUTTON-14405", devices: ["LEAP-04E58C0B-DIMMER-1037"]},
         { button: "LEAP-04E58C0B-BUTTON-14427", devices: ["LEAP-04E58C0B-DIMMER-1005"]},

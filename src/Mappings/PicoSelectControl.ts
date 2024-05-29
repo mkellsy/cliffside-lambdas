@@ -1,6 +1,7 @@
 import { ButtonControl } from "../Modules/ButtonControl";
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { Lambda } from "../Interfaces/Lambda";
+import { StateManager } from "../Modules/StateManager";
 
 /**
  * Mapps a group of devices to a series of pico remotes.
@@ -16,7 +17,7 @@ import { Lambda } from "../Interfaces/Lambda";
  * @returns An array of lambdas to be added to the lambda list.
  */
 export function picoSelectControl(
-    control: ButtonControl,
+    state: StateManager,
     groups: DeviceGroup[],
     on: string,
     off: string,
@@ -27,14 +28,14 @@ export function picoSelectControl(
     const lambdas: Lambda[] = [];
 
     for (let i = 0; i < groups.length; i++) {
-        lambdas.push(ButtonControl.select(groups[i], control));
+        lambdas.push(ButtonControl.select(groups[i], state));
     }
 
-    lambdas.push(ButtonControl.on(on, control));
-    lambdas.push(ButtonControl.off(off, control));
-    lambdas.push(ButtonControl.raise(raise, control));
-    lambdas.push(ButtonControl.lower(lower, control));
-    lambdas.push(ButtonControl.favorite(favorite, control));
+    lambdas.push(ButtonControl.on(on, state));
+    lambdas.push(ButtonControl.off(off, state));
+    lambdas.push(ButtonControl.raise(raise, state));
+    lambdas.push(ButtonControl.lower(lower, state));
+    lambdas.push(ButtonControl.favorite(favorite, state));
 
     return lambdas;
 }

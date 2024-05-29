@@ -1,6 +1,7 @@
+import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { Lambda } from "../Interfaces/Lambda";
 import { LEDControl } from "../Modules/LEDControl";
-import { DeviceGroup } from "../Interfaces/DeviceGroup";
+import { StateManager } from "../Modules/StateManager";
 
 /**
  * Mapps a group of devices to a series of sunnata keypads. note this can map
@@ -16,7 +17,7 @@ import { DeviceGroup } from "../Interfaces/DeviceGroup";
  * @returns An array of lambdas to be added to the lambda list.
  */
 export function sunnataSelectControl(
-    control: LEDControl,
+    state: StateManager,
     keypads: string[],
     groups: DeviceGroup[],
     raise: string,
@@ -26,14 +27,14 @@ export function sunnataSelectControl(
     const lambdas: Lambda[] = [];
 
     for (let i = 0; i < groups.length; i++) {
-        lambdas.push(LEDControl.select(keypads, groups[i], control));
+        lambdas.push(LEDControl.select(keypads, groups[i], state));
     }
 
-    lambdas.push(LEDControl.raise(raise, control));
-    lambdas.push(LEDControl.lower(lower, control));
+    lambdas.push(LEDControl.raise(raise, state));
+    lambdas.push(LEDControl.lower(lower, state));
 
     if (off != null) {
-        lambdas.push(LEDControl.off(keypads, off, control));
+        lambdas.push(LEDControl.off(keypads, off, state));
     }
 
     return lambdas;
