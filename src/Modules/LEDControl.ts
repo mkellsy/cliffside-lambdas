@@ -23,37 +23,29 @@ export class LEDControl {
      *
      * @returns A Lambda function to ass to the lambda list.
      */
-    public static select(
-        keypads: string[],
-        group: DeviceGroup,
-        state: StateManager,
-    ): Lambda {
+    public static select(keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
         return {
             button: group.button,
 
-            action: (
-                button: Interfaces.Button,
-                action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
-            ) => {
+            action: (button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>) => {
                 if (action !== "Press") {
                     return;
                 }
 
                 for (let i = 0; i < keypads.length; i++) {
                     const target = devices.get(keypads[i]);
-        
+
                     if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
                         continue;
                     }
-        
+
                     KeypadControl.select(target, button);
                 }
 
                 if (state.is(group)) {
                     for (let i = 0; i < group.devices.length; i++) {
                         const target = devices.get(group.devices[i]);
-            
+
                         if (target != null) {
                             if (target.capabilities.speed != null) {
                                 FanControl.toggle(target);
@@ -79,7 +71,7 @@ export class LEDControl {
                 }
 
                 state.set(group);
-            }
+            },
         };
     }
 
@@ -92,18 +84,14 @@ export class LEDControl {
      *
      * @returns A Lambda function to ass to the lambda list.
      */
-    public static off(
-        keypads: string[],
-        group: DeviceGroup,
-        state: StateManager
-    ): Lambda {
+    public static off(keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
         return {
             button: group.button,
 
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 if (action !== "Press") {
                     return;
@@ -111,17 +99,17 @@ export class LEDControl {
 
                 for (let i = 0; i < keypads.length; i++) {
                     const target = devices.get(keypads[i]);
-        
+
                     if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
                         continue;
                     }
-        
+
                     KeypadControl.reset(target);
                 }
 
                 for (let i = 0; i < group.devices.length; i++) {
                     const target = devices.get(group.devices[i]);
-        
+
                     if (target != null) {
                         if (target.capabilities.speed != null) {
                             FanControl.off(target);
@@ -146,10 +134,10 @@ export class LEDControl {
                 }
 
                 state.reset();
-            }
+            },
         };
     }
-    
+
     /**
      * Defines the raise lambda action for the currently selected group.
      *
@@ -165,7 +153,7 @@ export class LEDControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -186,7 +174,7 @@ export class LEDControl {
                         DimmerControl.raise(target);
                     }
                 }
-            }
+            },
         };
     }
 
@@ -205,7 +193,7 @@ export class LEDControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -226,7 +214,7 @@ export class LEDControl {
                         DimmerControl.lower(target);
                     }
                 }
-            }
+            },
         };
     }
 }

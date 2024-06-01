@@ -24,16 +24,13 @@ export class ButtonControl {
         return {
             button: group.button,
 
-            action: (
-                _button: Interfaces.Button,
-                action: Interfaces.Action
-            ) => {
+            action: (_button: Interfaces.Button, action: Interfaces.Action) => {
                 if (action === "Release") {
                     return;
                 }
 
                 state.set(group);
-            }
+            },
         };
     }
 
@@ -52,7 +49,7 @@ export class ButtonControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -62,7 +59,7 @@ export class ButtonControl {
 
                 for (let i = 0; i < group.devices.length; i++) {
                     const target = devices.get(group.devices[i]);
-        
+
                     if (target != null) {
                         if (target.capabilities.speed != null) {
                             FanControl.on(target);
@@ -85,7 +82,7 @@ export class ButtonControl {
                         }
                     }
                 }
-            }
+            },
         };
     }
 
@@ -104,7 +101,7 @@ export class ButtonControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -114,7 +111,7 @@ export class ButtonControl {
 
                 for (let i = 0; i < group.devices.length; i++) {
                     const target = devices.get(group.devices[i]);
-        
+
                     if (target != null) {
                         if (target.capabilities.speed != null) {
                             FanControl.off(target);
@@ -137,10 +134,10 @@ export class ButtonControl {
                         }
                     }
                 }
-            }
+            },
         };
     }
-    
+
     /**
      * Creates the raise lambda for the control pico.
      *
@@ -156,7 +153,7 @@ export class ButtonControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -177,7 +174,7 @@ export class ButtonControl {
                         DimmerControl.raise(target);
                     }
                 }
-            }
+            },
         };
     }
 
@@ -196,7 +193,7 @@ export class ButtonControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -217,7 +214,7 @@ export class ButtonControl {
                         DimmerControl.lower(target);
                     }
                 }
-            }
+            },
         };
     }
 
@@ -236,7 +233,7 @@ export class ButtonControl {
             action: (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
+                devices: Map<string, Interfaces.Device>,
             ) => {
                 const group = state.get();
 
@@ -257,7 +254,7 @@ export class ButtonControl {
                         DimmerControl.favorite(target);
                     }
                 }
-            }
+            },
         };
     }
 }

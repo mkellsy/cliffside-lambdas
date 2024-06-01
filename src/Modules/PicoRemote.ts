@@ -26,16 +26,12 @@ export abstract class PicoRemote {
         group: string[],
         long?: (device?: Interfaces.Device) => void,
         double?: (device?: Interfaces.Device) => void,
-        single?: (device?: Interfaces.Device) => void
+        single?: (device?: Interfaces.Device) => void,
     ): Lambda {
         return {
             button,
-    
-            action(
-                _button: Interfaces.Button,
-                action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>
-            ) {
+
+            action(_button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>) {
                 switch (action) {
                     case "Press":
                         if (single != null) {
@@ -43,9 +39,9 @@ export abstract class PicoRemote {
                                 single(devices.get(group[i]));
                             }
 
-                            return
+                            return;
                         }
-    
+
                     case "DoublePress":
                         if (double != null) {
                             for (let i = 0; i < group.length; i++) {
@@ -54,7 +50,7 @@ export abstract class PicoRemote {
 
                             return;
                         }
-    
+
                     case "LongPress":
                         if (long != null) {
                             for (let i = 0; i < group.length; i++) {

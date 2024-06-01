@@ -22,7 +22,7 @@ export function sunnataSelectControl(
     groups: DeviceGroup[],
     raise: string,
     lower: string,
-    off?: DeviceGroup
+    off?: DeviceGroup,
 ): Lambda[] {
     const lambdas: Lambda[] = [];
 

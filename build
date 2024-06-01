@@ -19,16 +19,37 @@ const options = {
     target: "es6",
     platform: "node",
     logLevel: "error",
-    legalComments: "none"
+    legalComments: "none",
 };
 
 const tasks = [
-    { input: path.resolve(__dirname, "src/EntrywayKeypad.ts"), output: path.resolve(__dirname, "lib/EntrywayKeypad.js") },
+    {
+        input: path.resolve(__dirname, "src/BackBedroomKeypad.ts"),
+        output: path.resolve(__dirname, "lib/BackBedroomKeypad.js"),
+    },
+    {
+        input: path.resolve(__dirname, "src/EntrywayKeypad.ts"),
+        output: path.resolve(__dirname, "lib/EntrywayKeypad.js"),
+    },
     { input: path.resolve(__dirname, "src/FoyerKeypad.ts"), output: path.resolve(__dirname, "lib/FoyerKeypad.js") },
+    {
+        input: path.resolve(__dirname, "src/FrontBedroomKeypad.ts"),
+        output: path.resolve(__dirname, "lib/FrontBedroomKeypad.js"),
+    },
     { input: path.resolve(__dirname, "src/KitchenRemote.ts"), output: path.resolve(__dirname, "lib/KitchenRemote.js") },
     { input: path.resolve(__dirname, "src/LivingRoomFan.ts"), output: path.resolve(__dirname, "lib/LivingRoomFan.js") },
-    { input: path.resolve(__dirname, "src/LivingRoomRemote.ts"), output: path.resolve(__dirname, "lib/LivingRoomRemote.js") },
-    { input: path.resolve(__dirname, "src/PrimaryBedroomRemote.ts"), output: path.resolve(__dirname, "lib/PrimaryBedroomRemote.js") }
+    {
+        input: path.resolve(__dirname, "src/LivingRoomRemote.ts"),
+        output: path.resolve(__dirname, "lib/LivingRoomRemote.js"),
+    },
+    {
+        input: path.resolve(__dirname, "src/PrimaryBedroomKeypad.ts"),
+        output: path.resolve(__dirname, "lib/PrimaryBedroomKeypad.js"),
+    },
+    {
+        input: path.resolve(__dirname, "src/PrimaryBedroomRemote.ts"),
+        output: path.resolve(__dirname, "lib/PrimaryBedroomRemote.js"),
+    },
 ];
 
 const jobs = [];
