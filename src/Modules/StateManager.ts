@@ -58,7 +58,6 @@ export class StateManager {
      */
     public reset(): void {
         this.cache.removeKey("/selected");
-        this.cache.removeCacheFile();
         this.cache.save();
     }
 }

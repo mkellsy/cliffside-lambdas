@@ -32,16 +32,6 @@ export class LEDControl {
                     return;
                 }
 
-                for (let i = 0; i < keypads.length; i++) {
-                    const target = devices.get(keypads[i]);
-
-                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
-                        continue;
-                    }
-
-                    KeypadControl.select(target, button);
-                }
-
                 if (state.is(group)) {
                     for (let i = 0; i < group.devices.length; i++) {
                         const target = devices.get(group.devices[i]);
@@ -68,6 +58,16 @@ export class LEDControl {
                             }
                         }
                     }
+                }
+
+                for (let i = 0; i < keypads.length; i++) {
+                    const target = devices.get(keypads[i]);
+
+                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
+                        continue;
+                    }
+
+                    KeypadControl.select(target, button);
                 }
 
                 state.set(group);
@@ -97,16 +97,6 @@ export class LEDControl {
                     return;
                 }
 
-                for (let i = 0; i < keypads.length; i++) {
-                    const target = devices.get(keypads[i]);
-
-                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
-                        continue;
-                    }
-
-                    KeypadControl.reset(target);
-                }
-
                 for (let i = 0; i < group.devices.length; i++) {
                     const target = devices.get(group.devices[i]);
 
@@ -131,6 +121,16 @@ export class LEDControl {
                             ContactControl.off(target);
                         }
                     }
+                }
+
+                for (let i = 0; i < keypads.length; i++) {
+                    const target = devices.get(keypads[i]);
+
+                    if (target == null || target.type !== Interfaces.DeviceType.Keypad) {
+                        continue;
+                    }
+
+                    KeypadControl.reset(target);
                 }
 
                 state.reset();
