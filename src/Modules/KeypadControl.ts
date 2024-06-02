@@ -10,12 +10,12 @@ export abstract class KeypadControl {
      * @param keypad A reference to the keypad.
      * @param button A reference to the button address (href).
      */
-    public static on(keypad: Device, button: Button): void {
+    public static async on(keypad: Device, button: Button): Promise<void> {
         if (button.led == null) {
             return;
         }
 
-        keypad.set({ led: button.led, state: "On" });
+        await keypad.set({ led: button.led, state: "On" });
     }
 
     /**
@@ -24,12 +24,12 @@ export abstract class KeypadControl {
      * @param keypad A reference to the keypad.
      * @param button A reference to the button address (href).
      */
-    public static off(keypad: Device, button: Button): void {
+    public static async off(keypad: Device, button: Button): Promise<void> {
         if (button.led == null) {
             return;
         }
 
-        keypad.set({ led: button.led, state: "Off" });
+        await keypad.set({ led: button.led, state: "Off" });
     }
 
     /**
@@ -39,14 +39,14 @@ export abstract class KeypadControl {
      * @param keypad A reference to the keypad.
      * @param button A reference to the button address (href).
      */
-    public static select(keypad: Device, button: Button): void {
+    public static async select(keypad: Device, button: Button): Promise<void> {
         const buttons = (keypad as Keypad).buttons.filter((item) => item.led != null);
 
         for (let i = 0; i < buttons.length; i++) {
             if (buttons[i].id === button.id) {
-                KeypadControl.on(keypad, buttons[i]);
+                await KeypadControl.on(keypad, buttons[i]);
             } else {
-                KeypadControl.off(keypad, buttons[i]);
+                await KeypadControl.off(keypad, buttons[i]);
             }
         }
     }
@@ -57,11 +57,11 @@ export abstract class KeypadControl {
      *
      * @param keypad A reference to the keypad.
      */
-    public static reset(keypad: Device): void {
+    public static async reset(keypad: Device): Promise<void> {
         const buttons = (keypad as Keypad).buttons.filter((item) => item.led != null);
 
         for (let i = 0; i < buttons.length; i++) {
-            KeypadControl.off(keypad, buttons[i]);
+            await KeypadControl.off(keypad, buttons[i]);
         }
     }
 }

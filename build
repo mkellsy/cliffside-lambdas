@@ -24,6 +24,10 @@ const options = {
 
 const tasks = [
     {
+        input: path.resolve(__dirname, "src/BackBedroomFan.ts"),
+        output: path.resolve(__dirname, "lib/BackBedroomFan.js"),
+    },
+    {
         input: path.resolve(__dirname, "src/BackBedroomKeypad.ts"),
         output: path.resolve(__dirname, "lib/BackBedroomKeypad.js"),
     },
@@ -33,6 +37,10 @@ const tasks = [
     },
     { input: path.resolve(__dirname, "src/FoyerKeypad.ts"), output: path.resolve(__dirname, "lib/FoyerKeypad.js") },
     {
+        input: path.resolve(__dirname, "src/FrontBedroomFan.ts"),
+        output: path.resolve(__dirname, "lib/FrontBedroomFan.js"),
+    },
+    {
         input: path.resolve(__dirname, "src/FrontBedroomKeypad.ts"),
         output: path.resolve(__dirname, "lib/FrontBedroomKeypad.js"),
     },
@@ -41,6 +49,10 @@ const tasks = [
     {
         input: path.resolve(__dirname, "src/LivingRoomRemote.ts"),
         output: path.resolve(__dirname, "lib/LivingRoomRemote.js"),
+    },
+    {
+        input: path.resolve(__dirname, "src/PrimaryBedroomFan.ts"),
+        output: path.resolve(__dirname, "lib/PrimaryBedroomFan.js"),
     },
     {
         input: path.resolve(__dirname, "src/PrimaryBedroomKeypad.ts"),

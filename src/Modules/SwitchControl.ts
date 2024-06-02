@@ -9,14 +9,14 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static on(binary?: Device): void {
+    public static async on(binary?: Device): Promise<void> {
         if (binary == null) {
             return;
         }
 
         const state = "On";
 
-        binary.set({ state });
+        await binary.set({ state });
     }
 
     /**
@@ -24,14 +24,14 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static off(binary?: Device): void {
+    public static async off(binary?: Device): Promise<void> {
         if (binary == null) {
             return;
         }
 
         const state = "Off";
 
-        binary.set({ state });
+        await binary.set({ state });
     }
 
     /**
@@ -39,13 +39,13 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static toggle(binary?: Device): void {
+    public static async toggle(binary?: Device): Promise<void> {
         if (binary == null) {
             return;
         }
 
         const state = binary.status.state === "On" ? "Off" : "On";
 
-        binary.set({ state });
+        await binary.set({ state });
     }
 }

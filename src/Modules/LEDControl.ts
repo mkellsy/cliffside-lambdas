@@ -27,7 +27,7 @@ export class LEDControl {
         return {
             button: group.button,
 
-            action: (button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>) => {
+            action: async (button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): Promise<void> => {
                 if (action !== "Press") {
                     return;
                 }
@@ -38,23 +38,23 @@ export class LEDControl {
 
                         if (target != null) {
                             if (target.capabilities.speed != null) {
-                                FanControl.toggle(target);
+                                await FanControl.toggle(target);
                             } else if (target.capabilities.level != null) {
-                                DimmerControl.toggle(target);
+                                await DimmerControl.toggle(target);
                             } else if (
                                 target.capabilities.state != null &&
                                 target.capabilities.state.values != null &&
                                 target.capabilities.state.values.indexOf("On") >= 0 &&
                                 target.capabilities.state.values.indexOf("Off") >= 0
                             ) {
-                                SwitchControl.toggle(target);
+                                await SwitchControl.toggle(target);
                             } else if (
                                 target.capabilities.state != null &&
                                 target.capabilities.state.values != null &&
                                 target.capabilities.state.values.indexOf("Open") >= 0 &&
                                 target.capabilities.state.values.indexOf("Closed") >= 0
                             ) {
-                                ContactControl.toggle(target);
+                                await ContactControl.toggle(target);
                             }
                         }
                     }
@@ -67,7 +67,7 @@ export class LEDControl {
                         continue;
                     }
 
-                    KeypadControl.select(target, button);
+                    await KeypadControl.select(target, button);
                 }
 
                 state.set(group);
@@ -88,11 +88,11 @@ export class LEDControl {
         return {
             button: group.button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 if (action !== "Press") {
                     return;
                 }
@@ -102,23 +102,23 @@ export class LEDControl {
 
                     if (target != null) {
                         if (target.capabilities.speed != null) {
-                            FanControl.off(target);
+                            await FanControl.off(target);
                         } else if (target.capabilities.level != null) {
-                            DimmerControl.off(target);
+                            await DimmerControl.off(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            SwitchControl.off(target);
+                            await SwitchControl.off(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("Open") >= 0 &&
                             target.capabilities.state.values.indexOf("Closed") >= 0
                         ) {
-                            ContactControl.off(target);
+                            await ContactControl.off(target);
                         }
                     }
                 }
@@ -130,7 +130,7 @@ export class LEDControl {
                         continue;
                     }
 
-                    KeypadControl.reset(target);
+                    await KeypadControl.reset(target);
                 }
 
                 state.reset();
@@ -150,11 +150,11 @@ export class LEDControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action !== "Press") {
@@ -169,9 +169,9 @@ export class LEDControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        FanControl.raise(target);
+                        await FanControl.raise(target);
                     } else if (target.capabilities.level != null) {
-                        DimmerControl.raise(target);
+                        await DimmerControl.raise(target);
                     }
                 }
             },
@@ -190,11 +190,11 @@ export class LEDControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action !== "Press") {
@@ -209,9 +209,9 @@ export class LEDControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        FanControl.lower(target);
+                        await FanControl.lower(target);
                     } else if (target.capabilities.level != null) {
-                        DimmerControl.lower(target);
+                        await DimmerControl.lower(target);
                     }
                 }
             },

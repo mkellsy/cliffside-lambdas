@@ -9,7 +9,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static on(fan?: Device): void {
+    public static async on(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -20,7 +20,7 @@ export abstract class FanControl {
         const whoosh = fan.status.whoosh || "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 
     /**
@@ -28,7 +28,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static off(fan?: Device): void {
+    public static async off(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -39,7 +39,7 @@ export abstract class FanControl {
         const whoosh = fan.status.whoosh || "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 
     /**
@@ -47,7 +47,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static toggle(fan?: Device): void {
+    public static async toggle(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -58,7 +58,7 @@ export abstract class FanControl {
         const whoosh = fan.status.whoosh || "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 
     /**
@@ -66,7 +66,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static auto(fan?: Device): void {
+    public static async auto(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -77,7 +77,7 @@ export abstract class FanControl {
         const whoosh = fan.status.whoosh || "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 
     /**
@@ -85,7 +85,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static raise(fan?: Device): void {
+    public static async raise(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -97,7 +97,7 @@ export abstract class FanControl {
         const eco = fan.status.eco || "Off";
 
         if (speed <= 7 && speed >= 0) {
-            fan.set({ state, speed, auto, whoosh, eco });
+            await fan.set({ state, speed, auto, whoosh, eco });
         }
     }
 
@@ -106,7 +106,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static lower(fan?: Device): void {
+    public static async lower(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -118,9 +118,9 @@ export abstract class FanControl {
         const eco = fan.status.eco || "Off";
 
         if (speed <= 7 && speed > 0) {
-            fan.set({ state, speed, auto, whoosh, eco });
+            await fan.set({ state, speed, auto, whoosh, eco });
         } else if (speed == 0) {
-            fan.set({ state: "Off", speed, auto, whoosh, eco });
+            await fan.set({ state: "Off", speed, auto, whoosh, eco });
         }
     }
 
@@ -129,7 +129,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static favorite(fan?: Device): void {
+    public static async favorite(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -140,7 +140,7 @@ export abstract class FanControl {
         const whoosh = fan.status.whoosh || "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 
     /**
@@ -148,7 +148,7 @@ export abstract class FanControl {
      *
      * @param cco (optional) A reference if exists to the fan device.
      */
-    public static whoosh(fan?: Device): void {
+    public static async whoosh(fan?: Device): Promise<void> {
         if (fan == null) {
             return;
         }
@@ -159,6 +159,6 @@ export abstract class FanControl {
         const whoosh = (fan.status.whoosh || "Off") === "Off" ? "On" : "Off";
         const eco = fan.status.eco || "Off";
 
-        fan.set({ state, speed, auto, whoosh, eco });
+        await fan.set({ state, speed, auto, whoosh, eco });
     }
 }

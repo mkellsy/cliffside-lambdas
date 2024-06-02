@@ -24,19 +24,19 @@ export abstract class PicoRemote {
     public static mapButton(
         button: string,
         group: string[],
-        long?: (device?: Interfaces.Device) => void,
-        double?: (device?: Interfaces.Device) => void,
-        single?: (device?: Interfaces.Device) => void,
+        long?: (device?: Interfaces.Device) => PromiseLike<void>,
+        double?: (device?: Interfaces.Device) => PromiseLike<void>,
+        single?: (device?: Interfaces.Device) => PromiseLike<void>,
     ): Lambda {
         return {
             button,
 
-            action(_button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>) {
+            async action(_button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): Promise<void> {
                 switch (action) {
                     case "Press":
                         if (single != null) {
                             for (let i = 0; i < group.length; i++) {
-                                single(devices.get(group[i]));
+                                await single(devices.get(group[i]));
                             }
 
                             return;
@@ -45,7 +45,7 @@ export abstract class PicoRemote {
                     case "DoublePress":
                         if (double != null) {
                             for (let i = 0; i < group.length; i++) {
-                                double(devices.get(group[i]));
+                                await double(devices.get(group[i]));
                             }
 
                             return;
@@ -54,7 +54,7 @@ export abstract class PicoRemote {
                     case "LongPress":
                         if (long != null) {
                             for (let i = 0; i < group.length; i++) {
-                                long(devices.get(group[i]));
+                                await long(devices.get(group[i]));
                             }
 
                             return;

@@ -9,14 +9,14 @@ export abstract class ContactControl {
      *
      * @param cco (optional) A reference if exists to the CCO device.
      */
-    public static on(cco?: Device): void {
+    public static async on(cco?: Device): Promise<void> {
         if (cco == null) {
             return;
         }
 
         const state = "Closed";
 
-        cco.set({ state });
+        await cco.set({ state });
     }
 
     /**
@@ -24,14 +24,14 @@ export abstract class ContactControl {
      *
      * @param cco (optional) A reference if exists to the CCO device.
      */
-    public static off(cco?: Device): void {
+    public static async off(cco?: Device): Promise<void> {
         if (cco == null) {
             return;
         }
 
         const state = "Open";
 
-        cco.set({ state });
+        await cco.set({ state });
     }
 
     /**
@@ -39,13 +39,13 @@ export abstract class ContactControl {
      *
      * @param cco (optional) A reference if exists to the CCO device.
      */
-    public static toggle(cco?: Device): void {
+    public static async toggle(cco?: Device): Promise<void> {
         if (cco == null) {
             return;
         }
 
         const state = cco.status.state === "Closed" ? "Open" : "Closed";
 
-        cco.set({ state });
+        await cco.set({ state });
     }
 }

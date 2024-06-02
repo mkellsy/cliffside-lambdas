@@ -24,7 +24,7 @@ export class ButtonControl {
         return {
             button: group.button,
 
-            action: (_button: Interfaces.Button, action: Interfaces.Action) => {
+            action: async (_button: Interfaces.Button, action: Interfaces.Action): Promise<void> => {
                 if (action === "Release") {
                     return;
                 }
@@ -46,11 +46,11 @@ export class ButtonControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action === "Release") {
@@ -62,23 +62,23 @@ export class ButtonControl {
 
                     if (target != null) {
                         if (target.capabilities.speed != null) {
-                            FanControl.on(target);
+                            await FanControl.on(target);
                         } else if (target.capabilities.level != null) {
-                            DimmerControl.on(target);
+                            await DimmerControl.on(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            SwitchControl.on(target);
+                            await SwitchControl.on(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("Open") >= 0 &&
                             target.capabilities.state.values.indexOf("Closed") >= 0
                         ) {
-                            ContactControl.on(target);
+                            await ContactControl.on(target);
                         }
                     }
                 }
@@ -98,11 +98,11 @@ export class ButtonControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action === "Release") {
@@ -114,23 +114,23 @@ export class ButtonControl {
 
                     if (target != null) {
                         if (target.capabilities.speed != null) {
-                            FanControl.off(target);
+                            await FanControl.off(target);
                         } else if (target.capabilities.level != null) {
-                            DimmerControl.off(target);
+                            await DimmerControl.off(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            SwitchControl.off(target);
+                            await SwitchControl.off(target);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("Open") >= 0 &&
                             target.capabilities.state.values.indexOf("Closed") >= 0
                         ) {
-                            ContactControl.off(target);
+                            await ContactControl.off(target);
                         }
                     }
                 }
@@ -150,11 +150,11 @@ export class ButtonControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action === "Release") {
@@ -169,9 +169,9 @@ export class ButtonControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        FanControl.raise(target);
+                        await FanControl.raise(target);
                     } else if (target.capabilities.level != null) {
-                        DimmerControl.raise(target);
+                        await DimmerControl.raise(target);
                     }
                 }
             },
@@ -190,11 +190,11 @@ export class ButtonControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action === "Release") {
@@ -209,9 +209,9 @@ export class ButtonControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        FanControl.lower(target);
+                        await FanControl.lower(target);
                     } else if (target.capabilities.level != null) {
-                        DimmerControl.lower(target);
+                        await DimmerControl.lower(target);
                     }
                 }
             },
@@ -230,11 +230,11 @@ export class ButtonControl {
         return {
             button,
 
-            action: (
+            action: async (
                 _button: Interfaces.Button,
                 action: Interfaces.Action,
                 devices: Map<string, Interfaces.Device>,
-            ) => {
+            ): Promise<void> => {
                 const group = state.get();
 
                 if (group == null || action === "Release") {
@@ -249,9 +249,9 @@ export class ButtonControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        FanControl.favorite(target);
+                        await FanControl.favorite(target);
                     } else if (target.capabilities.level != null) {
-                        DimmerControl.favorite(target);
+                        await DimmerControl.favorite(target);
                     }
                 }
             },

@@ -9,7 +9,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static on(dimmer?: Device): void {
+    public static async on(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -17,7 +17,7 @@ export abstract class DimmerControl {
         const state = "On";
         const level = 100;
 
-        dimmer.set({ state, level });
+        await dimmer.set({ state, level });
     }
 
     /**
@@ -25,7 +25,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static off(dimmer?: Device): void {
+    public static async off(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -33,7 +33,7 @@ export abstract class DimmerControl {
         const state = "Off";
         const level = 0;
 
-        dimmer.set({ state, level });
+        await dimmer.set({ state, level });
     }
 
     /**
@@ -41,7 +41,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static toggle(dimmer?: Device): void {
+    public static async toggle(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -49,7 +49,7 @@ export abstract class DimmerControl {
         const state = dimmer.status.state === "On" ? "Off" : "On";
         const level = state === "On" ? 100 : 0;
 
-        dimmer.set({ state, level });
+        await dimmer.set({ state, level });
     }
 
     /**
@@ -57,7 +57,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static raise(dimmer?: Device): void {
+    public static async raise(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -66,7 +66,7 @@ export abstract class DimmerControl {
         const level = (dimmer.status.level || 0) + 10;
 
         if (level <= 100 && level >= 0) {
-            dimmer.set({ state, level });
+            await dimmer.set({ state, level });
         }
     }
 
@@ -75,7 +75,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static lower(dimmer?: Device): void {
+    public static async lower(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -84,9 +84,9 @@ export abstract class DimmerControl {
         const level = (dimmer.status.level || 0) - 10;
 
         if (level <= 100 && level > 0) {
-            dimmer.set({ state, level });
+            await dimmer.set({ state, level });
         } else if (level == 0) {
-            dimmer.set({ state: "Off", level });
+            await dimmer.set({ state: "Off", level });
         }
     }
 
@@ -95,7 +95,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static favorite(dimmer?: Device): void {
+    public static async favorite(dimmer?: Device): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -103,6 +103,6 @@ export abstract class DimmerControl {
         const state = "On";
         const level = 50;
 
-        dimmer.set({ state, level });
+        await dimmer.set({ state, level });
     }
 }

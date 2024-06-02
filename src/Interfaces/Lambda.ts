@@ -16,5 +16,5 @@ export interface Lambda {
      * @param action The button action, press, double press or long press.
      * @param devices A list of loaded controllable devices.
      */
-    action(button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): void;
+    action(button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): PromiseLike<void>;
 }
