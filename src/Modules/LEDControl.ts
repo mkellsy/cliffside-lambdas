@@ -27,7 +27,11 @@ export class LEDControl {
         return {
             button: group.button,
 
-            action: async (button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): Promise<void> => {
+            action: async (
+                button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> => {
                 if (action !== "Press") {
                     return;
                 }

@@ -31,7 +31,11 @@ export abstract class PicoRemote {
         return {
             button,
 
-            async action(_button: Interfaces.Button, action: Interfaces.Action, devices: Map<string, Interfaces.Device>): Promise<void> {
+            async action(
+                _button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> {
                 switch (action) {
                     case "Press":
                         if (single != null) {
