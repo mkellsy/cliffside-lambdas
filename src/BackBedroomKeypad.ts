@@ -8,7 +8,7 @@ module.exports = sunnataSelectControl(
     ["LEAP-04E58C0B-KEYPAD-23377"],
     [
         { button: "LEAP-04E58C0B-BUTTON-23386", devices: ["BAF-123456-DOWNLIGHT"] },
-        { button: "LEAP-04E58C0B-BUTTON-23390", devices: ["LEAP-04E58C0B-DIMMER-2058"] },
+        { button: "LEAP-04E58C0B-BUTTON-23390", devices: [] },
         { button: "LEAP-04E58C0B-BUTTON-23394", devices: ["BAF-123456-FAN"] },
     ],
     "LEAP-04E58C0B-BUTTON-23400",

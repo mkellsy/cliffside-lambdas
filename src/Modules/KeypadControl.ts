@@ -1,67 +1,201 @@
-import { Button, Device, Keypad } from "@mkellsy/hap-device";
+import * as Interfaces from "@mkellsy/hap-device";
+
+import { ContactControl } from "./ContactControl";
+import { DeviceGroup } from "../Interfaces/DeviceGroup";
+import { DimmerControl } from "./DimmerControl";
+import { FanControl } from "./FanControl";
+import { Lambda } from "../Interfaces/Lambda";
+import { StateManager } from "./StateManager";
+import { SwitchControl } from "./SwitchControl";
 
 /**
- * Defines the lambda actions for the LEDs on a keypad.
+ * Defines how multiple keypad buttons with LEDs interact with a set of raise
+ * and lower buttons.
  */
-export abstract class KeypadControl {
+export class KeypadControl {
     /**
-     * Defines the on lambda action for a keypad's led.
+     * Selects a device to be controlled.
      *
-     * @param keypad A reference to the keypad.
-     * @param button A reference to the button address (href).
+     * @param keypads A list of mapped keypad ids.
+     * @param group A group of devices to assign the keypad.
+     * @param state A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
      */
-    public static async on(keypad: Device, button: Button): Promise<void> {
-        if (button.led == null) {
-            return;
-        }
+    public static select(keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
+        return {
+            button: group.button,
 
-        await keypad.set({ led: button.led, state: "On" });
+            action: async (
+                _button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> => {
+                if (action !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+
+                    if (target != null) {
+                        if (target.capabilities.speed != null) {
+                            await FanControl.toggle(target);
+                        } else if (target.capabilities.level != null) {
+                            await DimmerControl.toggle(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("On") >= 0 &&
+                            target.capabilities.state.values.indexOf("Off") >= 0
+                        ) {
+                            await SwitchControl.toggle(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("Open") >= 0 &&
+                            target.capabilities.state.values.indexOf("Closed") >= 0
+                        ) {
+                            await ContactControl.toggle(target);
+                        }
+                    }
+                }
+
+                state.set(group);
+            },
+        };
     }
 
     /**
-     * Defines the off lambda action for a keypad's led.
+     * Defines the off lambda action for the currently selected group.
      *
-     * @param keypad A reference to the keypad.
-     * @param button A reference to the button address (href).
+     * @param keypads A list of mapped keypad ids.
+     * @param group A group of devices to assign the keypad.
+     * @param state A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
      */
-    public static async off(keypad: Device, button: Button): Promise<void> {
-        if (button.led == null) {
-            return;
-        }
+    public static off(_keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
+        return {
+            button: group.button,
 
-        await keypad.set({ led: button.led, state: "Off" });
+            action: async (
+                _button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> => {
+                if (action !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+
+                    if (target != null) {
+                        if (target.capabilities.speed != null) {
+                            await FanControl.off(target);
+                        } else if (target.capabilities.level != null) {
+                            await DimmerControl.off(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("On") >= 0 &&
+                            target.capabilities.state.values.indexOf("Off") >= 0
+                        ) {
+                            await SwitchControl.off(target);
+                        } else if (
+                            target.capabilities.state != null &&
+                            target.capabilities.state.values != null &&
+                            target.capabilities.state.values.indexOf("Open") >= 0 &&
+                            target.capabilities.state.values.indexOf("Closed") >= 0
+                        ) {
+                            await ContactControl.off(target);
+                        }
+                    }
+                }
+
+                state.reset();
+            },
+        };
     }
 
     /**
-     * Defines the select lambda action for a keypad's led. This will turn off
-     * all LEDs except the selected button.
+     * Defines the raise lambda action for the currently selected group.
      *
-     * @param keypad A reference to the keypad.
-     * @param button A reference to the button address (href).
+     * @param button The id of the raise button.
+     * @param state A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
      */
-    public static async select(keypad: Device, button: Button): Promise<void> {
-        const buttons = (keypad as Keypad).buttons.filter((item) => item.led != null);
+    public static raise(button: string, state: StateManager): Lambda {
+        return {
+            button,
 
-        for (let i = 0; i < buttons.length; i++) {
-            if (buttons[i].id === button.id) {
-                await KeypadControl.on(keypad, buttons[i]);
-            } else {
-                await KeypadControl.off(keypad, buttons[i]);
-            }
-        }
+            action: async (
+                _button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> => {
+                const group = state.get();
+
+                if (group == null || action !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+
+                    if (target == null) {
+                        continue;
+                    }
+
+                    if (target.capabilities.speed != null) {
+                        await FanControl.raise(target);
+                    } else if (target.capabilities.level != null) {
+                        await DimmerControl.raise(target);
+                    }
+                }
+            },
+        };
     }
 
     /**
-     * Defines the reset lambda action for a keypad's led. This will turn off
-     * all LEDs on a keypad.
+     * Defines the lower lambda action for the currently selected group.
      *
-     * @param keypad A reference to the keypad.
+     * @param button The id of the lower button.
+     * @param state A reference to this object for cache.
+     *
+     * @returns A Lambda function to ass to the lambda list.
      */
-    public static async reset(keypad: Device): Promise<void> {
-        const buttons = (keypad as Keypad).buttons.filter((item) => item.led != null);
+    public static lower(button: string, state: StateManager): Lambda {
+        return {
+            button,
 
-        for (let i = 0; i < buttons.length; i++) {
-            await KeypadControl.off(keypad, buttons[i]);
-        }
+            action: async (
+                _button: Interfaces.Button,
+                action: Interfaces.Action,
+                devices: Map<string, Interfaces.Device>,
+            ): Promise<void> => {
+                const group = state.get();
+
+                if (group == null || action !== "Press") {
+                    return;
+                }
+
+                for (let i = 0; i < group.devices.length; i++) {
+                    const target = devices.get(group.devices[i]);
+
+                    if (target == null) {
+                        continue;
+                    }
+
+                    if (target.capabilities.speed != null) {
+                        await FanControl.lower(target);
+                    } else if (target.capabilities.level != null) {
+                        await DimmerControl.lower(target);
+                    }
+                }
+            },
+        };
     }
 }

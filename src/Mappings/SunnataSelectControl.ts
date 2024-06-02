@@ -1,6 +1,6 @@
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
+import { KeypadControl } from "../Modules/KeypadControl";
 import { Lambda } from "../Interfaces/Lambda";
-import { LEDControl } from "../Modules/LEDControl";
 import { StateManager } from "../Modules/StateManager";
 
 /**
@@ -27,14 +27,14 @@ export function sunnataSelectControl(
     const lambdas: Lambda[] = [];
 
     for (let i = 0; i < groups.length; i++) {
-        lambdas.push(LEDControl.select(keypads, groups[i], state));
+        lambdas.push(KeypadControl.select(keypads, groups[i], state));
     }
 
-    lambdas.push(LEDControl.raise(raise, state));
-    lambdas.push(LEDControl.lower(lower, state));
+    lambdas.push(KeypadControl.raise(raise, state));
+    lambdas.push(KeypadControl.lower(lower, state));
 
     if (off != null) {
-        lambdas.push(LEDControl.off(keypads, off, state));
+        lambdas.push(KeypadControl.off(keypads, off, state));
     }
 
     return lambdas;

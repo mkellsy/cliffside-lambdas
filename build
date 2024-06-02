@@ -32,11 +32,6 @@ const tasks = [
         output: path.resolve(__dirname, "lib/BackBedroomKeypad.js"),
     },
     {
-        input: path.resolve(__dirname, "src/EntrywayKeypad.ts"),
-        output: path.resolve(__dirname, "lib/EntrywayKeypad.js"),
-    },
-    { input: path.resolve(__dirname, "src/FoyerKeypad.ts"), output: path.resolve(__dirname, "lib/FoyerKeypad.js") },
-    {
         input: path.resolve(__dirname, "src/FrontBedroomFan.ts"),
         output: path.resolve(__dirname, "lib/FrontBedroomFan.js"),
     },
