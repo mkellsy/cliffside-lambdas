@@ -18,7 +18,6 @@ import { StateManager } from "../Modules/StateManager";
  */
 export function sunnataSelectControl(
     state: StateManager,
-    keypads: string[],
     groups: DeviceGroup[],
     raise: string,
     lower: string,
@@ -27,14 +26,14 @@ export function sunnataSelectControl(
     const lambdas: Lambda[] = [];
 
     for (let i = 0; i < groups.length; i++) {
-        lambdas.push(KeypadControl.select(keypads, groups[i], state));
+        lambdas.push(KeypadControl.select(groups[i], state));
     }
 
     lambdas.push(KeypadControl.raise(raise, state));
     lambdas.push(KeypadControl.lower(lower, state));
 
     if (off != null) {
-        lambdas.push(KeypadControl.off(keypads, off, state));
+        lambdas.push(KeypadControl.off(off, state));
     }
 
     return lambdas;

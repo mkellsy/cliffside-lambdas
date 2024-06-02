@@ -5,7 +5,6 @@ const state = new StateManager("EntrywayKeypad");
 
 module.exports = sunnataSelectControl(
     state,
-    ["LEAP-04E58C0B-KEYPAD-23377"],
     [
         { button: "LEAP-04E58C0B-BUTTON-23386", devices: ["BAF-123456-DOWNLIGHT"] },
         { button: "LEAP-04E58C0B-BUTTON-23390", devices: [] },

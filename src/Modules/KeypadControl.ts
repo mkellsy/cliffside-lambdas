@@ -22,7 +22,7 @@ export class KeypadControl {
      *
      * @returns A Lambda function to ass to the lambda list.
      */
-    public static select(keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
+    public static select(group: DeviceGroup, state: StateManager): Lambda {
         return {
             button: group.button,
 
@@ -38,7 +38,7 @@ export class KeypadControl {
                 for (let i = 0; i < group.devices.length; i++) {
                     const target = devices.get(group.devices[i]);
 
-                    if (target != null) {
+                    if (target != null && target.manufacturer !== "Lutron Electronics Co., Inc") {
                         if (target.capabilities.speed != null) {
                             await FanControl.toggle(target);
                         } else if (target.capabilities.level != null) {
@@ -75,7 +75,7 @@ export class KeypadControl {
      *
      * @returns A Lambda function to ass to the lambda list.
      */
-    public static off(_keypads: string[], group: DeviceGroup, state: StateManager): Lambda {
+    public static off(group: DeviceGroup, state: StateManager): Lambda {
         return {
             button: group.button,
 
