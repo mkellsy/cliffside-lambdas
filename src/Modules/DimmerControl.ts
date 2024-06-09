@@ -1,4 +1,5 @@
 import { Device } from "@mkellsy/hap-device";
+import { Dimmer } from "@mkellsy/leap-client";
 
 /**
  * Defines the lambda actions for dimmers.
@@ -9,7 +10,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async on(dimmer?: Device): Promise<void> {
+    public static async on(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -25,7 +26,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async off(dimmer?: Device): Promise<void> {
+    public static async off(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -41,7 +42,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async toggle(dimmer?: Device): Promise<void> {
+    public static async toggle(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -57,7 +58,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async raise(dimmer?: Device): Promise<void> {
+    public static async raise(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -75,7 +76,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async lower(dimmer?: Device): Promise<void> {
+    public static async lower(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }
@@ -95,7 +96,7 @@ export abstract class DimmerControl {
      *
      * @param cco (optional) A reference if exists to the dimmer device.
      */
-    public static async favorite(dimmer?: Device): Promise<void> {
+    public static async favorite(dimmer?: Dimmer): Promise<void> {
         if (dimmer == null) {
             return;
         }

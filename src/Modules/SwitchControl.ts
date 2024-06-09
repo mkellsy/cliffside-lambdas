@@ -1,4 +1,5 @@
 import { Device } from "@mkellsy/hap-device";
+import { Switch } from "@mkellsy/leap-client";
 
 /**
  * Defines lamda actions for switch devices.
@@ -9,7 +10,7 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static async on(binary?: Device): Promise<void> {
+    public static async on(binary?: Switch): Promise<void> {
         if (binary == null) {
             return;
         }
@@ -24,7 +25,7 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static async off(binary?: Device): Promise<void> {
+    public static async off(binary?: Switch): Promise<void> {
         if (binary == null) {
             return;
         }
@@ -39,7 +40,7 @@ export abstract class SwitchControl {
      *
      * @param binary (optional) A reference to the switch, if defined.
      */
-    public static async toggle(binary?: Device): Promise<void> {
+    public static async toggle(binary?: Switch): Promise<void> {
         if (binary == null) {
             return;
         }

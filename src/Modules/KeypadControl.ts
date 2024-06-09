@@ -1,6 +1,8 @@
 import * as Interfaces from "@mkellsy/hap-device";
 
-import { ContactControl } from "./ContactControl";
+import { Fan } from "@mkellsy/baf-client";
+import { Dimmer, Switch } from "@mkellsy/leap-client";
+
 import { DeviceGroup } from "../Interfaces/DeviceGroup";
 import { DimmerControl } from "./DimmerControl";
 import { FanControl } from "./FanControl";
@@ -40,23 +42,16 @@ export class KeypadControl {
 
                     if (target != null && target.manufacturer !== "Lutron Electronics Co., Inc") {
                         if (target.capabilities.speed != null) {
-                            await FanControl.toggle(target);
+                            await FanControl.toggle(target as Fan);
                         } else if (target.capabilities.level != null) {
-                            await DimmerControl.toggle(target);
+                            await DimmerControl.toggle(target as Dimmer);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            await SwitchControl.toggle(target);
-                        } else if (
-                            target.capabilities.state != null &&
-                            target.capabilities.state.values != null &&
-                            target.capabilities.state.values.indexOf("Open") >= 0 &&
-                            target.capabilities.state.values.indexOf("Closed") >= 0
-                        ) {
-                            await ContactControl.toggle(target);
+                            await SwitchControl.toggle(target as Switch);
                         }
                     }
                 }
@@ -93,23 +88,16 @@ export class KeypadControl {
 
                     if (target != null) {
                         if (target.capabilities.speed != null) {
-                            await FanControl.off(target);
+                            await FanControl.off(target as Fan);
                         } else if (target.capabilities.level != null) {
-                            await DimmerControl.off(target);
+                            await DimmerControl.off(target as Dimmer);
                         } else if (
                             target.capabilities.state != null &&
                             target.capabilities.state.values != null &&
                             target.capabilities.state.values.indexOf("On") >= 0 &&
                             target.capabilities.state.values.indexOf("Off") >= 0
                         ) {
-                            await SwitchControl.off(target);
-                        } else if (
-                            target.capabilities.state != null &&
-                            target.capabilities.state.values != null &&
-                            target.capabilities.state.values.indexOf("Open") >= 0 &&
-                            target.capabilities.state.values.indexOf("Closed") >= 0
-                        ) {
-                            await ContactControl.off(target);
+                            await SwitchControl.off(target as Switch);
                         }
                     }
                 }
@@ -150,9 +138,9 @@ export class KeypadControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        await FanControl.raise(target);
+                        await FanControl.raise(target as Fan);
                     } else if (target.capabilities.level != null) {
-                        await DimmerControl.raise(target);
+                        await DimmerControl.raise(target as Dimmer);
                     }
                 }
             },
@@ -190,9 +178,9 @@ export class KeypadControl {
                     }
 
                     if (target.capabilities.speed != null) {
-                        await FanControl.lower(target);
+                        await FanControl.lower(target as Fan);
                     } else if (target.capabilities.level != null) {
-                        await DimmerControl.lower(target);
+                        await DimmerControl.lower(target as Dimmer);
                     }
                 }
             },

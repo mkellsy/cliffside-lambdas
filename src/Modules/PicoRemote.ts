@@ -1,4 +1,4 @@
-import * as Interfaces from "@mkellsy/hap-device";
+import { Action, Button, Device } from "@mkellsy/hap-device";
 
 import { Lambda } from "../Interfaces/Lambda";
 
@@ -21,26 +21,22 @@ export abstract class PicoRemote {
      *
      * @returns A lambda to add to the lambda list.
      */
-    public static mapButton(
+    public static mapButton<DEVICE extends Device>(
         button: string,
         group: string[],
-        long?: (device?: Interfaces.Device) => PromiseLike<void>,
-        double?: (device?: Interfaces.Device) => PromiseLike<void>,
-        single?: (device?: Interfaces.Device) => PromiseLike<void>,
+        long?: (device?: DEVICE) => PromiseLike<void>,
+        double?: (device?: DEVICE) => PromiseLike<void>,
+        single?: (device?: DEVICE) => PromiseLike<void>,
     ): Lambda {
         return {
             button,
 
-            async action(
-                _button: Interfaces.Button,
-                action: Interfaces.Action,
-                devices: Map<string, Interfaces.Device>,
-            ): Promise<void> {
+            async action(_button: Button, action: Action, devices: Map<string, Device>): Promise<void> {
                 switch (action) {
                     case "Press":
                         if (single != null) {
                             for (let i = 0; i < group.length; i++) {
-                                await single(devices.get(group[i]));
+                                await single(devices.get(group[i]) as DEVICE);
                             }
 
                             return;
@@ -49,7 +45,7 @@ export abstract class PicoRemote {
                     case "DoublePress":
                         if (double != null) {
                             for (let i = 0; i < group.length; i++) {
-                                await double(devices.get(group[i]));
+                                await double(devices.get(group[i]) as DEVICE);
                             }
 
                             return;
@@ -58,7 +54,7 @@ export abstract class PicoRemote {
                     case "LongPress":
                         if (long != null) {
                             for (let i = 0; i < group.length; i++) {
-                                await long(devices.get(group[i]));
+                                await long(devices.get(group[i]) as DEVICE);
                             }
 
                             return;
